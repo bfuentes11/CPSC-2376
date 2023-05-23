@@ -3,6 +3,13 @@
 #include <random>
 using namespace std;
 
+struct Player
+{
+	std::string Name;
+	int strength{ 0 };
+	int health{ 0 };
+};
+
 int main()
 {
 	random_device seed;
@@ -13,11 +20,6 @@ int main()
 
 	cout << x;
 	
-
-	struct Player
-	{
-		std::string Link;
-		double strength{ 0 };
-		int health{ 0 };
-	};
+	
+	
 }
