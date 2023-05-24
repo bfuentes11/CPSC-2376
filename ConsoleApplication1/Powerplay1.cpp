@@ -90,7 +90,10 @@ int main()
 	//Monster Deletion
 	if (x == 1) {
 		monst.resize(1);
-		
+		Monster Enemy1{ "Monster1" , strMonster, vitMonster };
+		Monster Enemy2{ "Monster2" , strMonster2, vitMonster2 };
+		Monster Enemy3{ "Monster3" , strMonster3, vitMonster3 };
+
 
 	}
 	else if (x == 2) {
