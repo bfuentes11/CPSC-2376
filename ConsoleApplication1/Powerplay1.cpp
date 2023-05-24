@@ -58,23 +58,34 @@ int main()
 	std::uniform_int_distribution<int> uiDist(1, 3);
 	std::bernoulli_distribution bDist(0.75);
 
+
+	
 	/*
-	Player and Monster Stats
+	Player Stats
 	Plus one is being used to avoid having str and health set to 0
 	*/
 	int strPlayer = 1 + nDist(e);
 	int vitPlayer = 1 + nDist(e);
 
+	
+	//Monster Stats
 	int strMonster = 1 + nDist(e);
+	int strMonster2 = 1 + nDist(e);
+	int strMonster3 = 1 + nDist(e);
 	int vitMonster = 1 + nDist(e);
+	int vitMonster2 = 1 + nDist(e);
+	int vitMonster3 = 1 + nDist(e);
+	
+	
 	//Random Monster Count
 	std::vector <int> monst;
 	monst = { uiDist(e) };
 	int x = monst.size();
 
+
 	Monster Enemy1{ "Monster1" , strMonster, vitMonster };
-	Monster Enemy2{ "Monster2" , strMonster, vitMonster };
-	Monster Enemy3{ "Monster3" , strMonster, vitMonster };
+	Monster Enemy2{ "Monster2" , strMonster2, vitMonster2 };
+	Monster Enemy3{ "Monster3" , strMonster3, vitMonster3};
 
 	//Monster Deletion
 	if (x == 1) {
@@ -85,16 +96,22 @@ int main()
 	else if (x == 2) {
 		monst.resize(2);
 		Monster Enemy1{ "Monster1" , strMonster, vitMonster };
-		Monster Enemy2{ "Monster2" , strMonster, vitMonster };
+		Monster Enemy2{ "Monster2" , strMonster2, vitMonster2 };
 
 	}
 	else {
 		monst.resize(3);
 		Monster Enemy1{ "Monster1" , strMonster, vitMonster };
-		Monster Enemy2{ "Monster2" , strMonster, vitMonster };
-		Monster Enemy3{ "Monster3" , strMonster, vitMonster };
+		Monster Enemy2{ "Monster2" , strMonster2, vitMonster2 };
+		Monster Enemy3{ "Monster3" , strMonster3, vitMonster3 };
 
 	}
+
+	//Balancing to avoid getting oneshot
+	if (vitPlayer < strMonster || strMonster2 || strMonster3) {
+		vitPlayer = vitPlayer + 20;
+	}
+	
 
 
 
@@ -112,22 +129,18 @@ int main()
 	Player Link{ customName , strPlayer, vitPlayer };
 
 
-	cout << endl;
+	std::cout << endl;
 
 	system("PAUSE");
 	//system("CLS");
-
+	
 	
 	//Game Start
 	while (Link.health > 0 && x > 0) {
 		int choice = 0;
 		int secondChoice = 0;
-		int secretEnd = 0;
-		if (secretEnd == 1) {
-			Link.health = 0;
-			cout << "You got the secret ending" << endl;
-		}
-		cout << "BATTLE BEGIN" << endl << endl;
+			
+		std::cout << "BATTLE BEGIN" << endl << endl;
 
 		//display stats
 		nameCharacter(Link);
@@ -135,57 +148,56 @@ int main()
 		displayStrength(Link);
 
 		//battle system (player turn)
-		cout << "Choose an action" << endl << "1. Attack " << " 2. Heal" << endl;
-		cout << "3. Walk Away" << endl;
+		std::cout << "Choose an action" << endl << "1. Attack " << " 2. Heal" << endl;
 		cin >> choice;
 
 		switch (choice)
 		{
 		case 1:
 			//system("CLS");
-			cout << "Who would you like to attack ?" << endl;
+			std::cout << "Who would you like to attack ?" << endl;
 			cin >> secondChoice;
 			switch (secondChoice)
 			{
 			case 1:
 				if (Enemy1.monstHealth <= 0) {
-					cout << "Monster is dead cannot attack";
+					std::cout << "Monster is dead cannot attack";
 					x - 1;
 					break;
 				}
 				else {
-					cout << "Monster Health: " << Enemy1.monstHealth << endl;
-					cout << "Attacking" << endl;
+					std::cout << "Monster Health: " << Enemy1.monstHealth << endl;
+					std::cout << "Attacking" << endl;
 					Enemy1.monstHealth = Enemy1.monstHealth - Link.strength;
-					cout << "Monster Health is now : " << Enemy1.monstHealth;
+					std::cout << "Monster Health is now : " << Enemy1.monstHealth;
 					break;
 				}
 			case 2:
 				if (Enemy2.monstHealth <= 0) {
-					cout << "Monster is dead cannot attack";
+					std::cout << "Monster is dead cannot attack";
 					x - 1;
 					break;
 				}
 				else {
-					cout << "Monster Health: " << Enemy2.monstHealth << endl;
-					cout << "Attacking" << endl;
+					std::cout << "Monster Health: " << Enemy2.monstHealth << endl;
+					std::cout << "Attacking" << endl;
 					Enemy2.monstHealth = Enemy2.monstHealth - Link.strength;
-					cout << "Monster Health is now : " << Enemy2.monstHealth;
+					std::cout << "Monster Health is now : " << Enemy2.monstHealth;
 					break;
 			case 3:
 				if (Enemy3.monstHealth <= 0) {
-					cout << "Monster is dead cannot attack";
+					std::cout << "Monster is dead cannot attack";
 					x - 1;
 					break;
 				}
 				else {
-					cout << "Monster Health: " << Enemy3.monstHealth << endl;
-					cout << "Attacking" << endl;
+					std::cout << "Monster Health: " << Enemy3.monstHealth << endl;
+					std::cout << "Attacking" << endl;
 					Enemy3.monstHealth = Enemy3.monstHealth - Link.strength;
-					cout << "Monster Health is now : " << Enemy3.monstHealth;
+					std::cout << "Monster Health is now : " << Enemy3.monstHealth;
 					break;
 			default:
-				cout << "You have attacked air." << endl;
+				std::cout << "You have attacked air." << endl;
 				break;
 				}
 
@@ -198,24 +210,15 @@ int main()
 			}
 			break;
 		case 2:
-			cout << "HEALING" << endl;
+			std::cout << "HEALING" << endl;
 			Link.health = characterHeal(Link);
+
+			std::cout << "You have restored " << Link.health << " points" << endl;
 			break;
-		case 3:
-			int run = 0;
-			if (run != 3) {
-				cout << "Please don't leave" << endl;
-				run++;
-				break;
-			}
-			else {
-				cout << "I guess I can't stop you forever." << endl;
-				system("PAUSE");
-				//system("CLS");
-				secretEnd = secretEnd + 1;
-				break;
-			}
-			
+		
+		default:
+			cout << "You lose a turn for trying to be funny" << endl;
+			break;
 
 
 
@@ -224,22 +227,26 @@ int main()
 		}
 
 		//system("CLS");
-		cout << endl << "ENEMY PHASE" << endl;
+		std::cout << endl << "ENEMY PHASE" << endl;
 
 		for (auto num : monst) {
 			if (bDist(e) >= 1) {
-				if (Enemy1.monstHealth != 0) {
+				if (Enemy1.monstHealth > 0) {
 					Link.health = Link.health - Enemy1.monstStrength;
-					cout << "You have lost " << Enemy1.monstStrength << " health" << endl;
+					std::cout << "You have lost " << Enemy1.monstStrength << " health" << endl;
 				}
-				else if(Enemy2.monstHealth !=0){
+				else if(Enemy2.monstHealth > 0){
 					Link.health = Link.health - Enemy2.monstStrength;
-					cout << "You have lost " << Enemy2.monstStrength << " health" << endl;
+					std::cout << "You have lost " << Enemy2.monstStrength << " health" << endl;
 
 				}
-				else if (Enemy3.monstHealth != 0) {
+				else if (Enemy3.monstHealth > 0) {
 					Link.health = Link.health - Enemy3.monstStrength;
-					cout << "You have lost " << Enemy3.monstStrength << " health" << endl;
+					std::cout << "You have lost " << Enemy3.monstStrength << " health" << endl;
+				}
+				else {
+					std::cout << "ALL MONSTERS ARE DEAD!" << endl;
+						x = 0;
 				}
 			}
 
@@ -249,14 +256,11 @@ int main()
 	}
 
 	if (Link.health <= 0) {
-		cout << "You have died" << endl << "Game over";
+		std::cout << "You have died" << endl << "Game over";
 	}
-	else if (x <= 0) {
-		cout << "You have slain all the monsters!" << endl << "Game over";
+	else {
+		std::cout << "You have slain all the monsters!" << endl << "Game over";
 		}
-	else
-	{
-		cout << "Game over" << endl;
-	}
+
 	
 }
