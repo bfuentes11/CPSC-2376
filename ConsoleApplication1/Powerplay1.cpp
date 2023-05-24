@@ -21,9 +21,15 @@ struct Monster
 
 };
 
-//Heals Character
+//Character and Monster actions
 void characterHeal(Player& player) {
 	int heal = player.strength * 2;
+}
+void playerAttack(Player& player) {
+	int playerAttack = player.strength;
+}
+void monsterAttack(Monster& monster) {
+	int monstAttack = monster.monstStrength;
 }
 
 //Displays character name
@@ -64,21 +70,31 @@ int main()
 	monst = { uiDist(e) };
 	int x = monst.size();
 
-	//Monster Creation
+	Monster Enemy1{ "Monster1" , strMonster, vitMonster };
+	Monster Enemy2{ "Monster2" , strMonster, vitMonster };
+	Monster Enemy3{ "Monster3" , strMonster, vitMonster };
+
+	//Monster Deletion
 	if (x == 1) {
-		Monster enemy1{ "Monster1" , strMonster, vitMonster };
+		monst.resize(1);
+		Monster Enemy1{ "Monster1" , strMonster, vitMonster };
+		
 	}
 	else if (x == 2) {
-		Monster enemy1{ "Monster1" , strMonster, vitMonster };
-		Monster enemy2{ "Monster2" , strMonster, vitMonster };
+		monst.resize(2);
+		Monster Enemy1{ "Monster1" , strMonster, vitMonster };
+		Monster Enemy2{ "Monster2" , strMonster, vitMonster };
+		
 	}
 	else {
-		Monster enemy1{ "Monster1" , strMonster, vitMonster };
-		Monster enemy2{ "Monster2" , strMonster, vitMonster };
-		Monster enemy3{ "Monster3" , strMonster, vitMonster };
+		monst.resize(3);
+		Monster Enemy1{ "Monster1" , strMonster, vitMonster };
+		Monster Enemy2{ "Monster2" , strMonster, vitMonster };
+		Monster Enemy3{ "Monster3" , strMonster, vitMonster };
+		
 	}
 
-
+	
 
 	string customName;
 
@@ -104,18 +120,74 @@ int main()
 
 
 	//Game Start
-	while (Link.health != 0 || monst.size() != 0) {
+	while (Link.health != 0 || x != 0) {
 		int choice = 0;
 		cout << "BATTLE BEGIN" << endl << endl;
+		
+		//display stats
+		nameCharacter(Link);
+		displayHealth(Link);
+		displayStrength(Link);
+
+		//battle system (player turn)
 		cout << "Choose an action" << endl << "1. Attack " << " 2. Heal" << endl;
 		cout << "3. Walk Away" << endl;
-		switch (choice) {
-		case 1: 
+		cin >> choice;
 
+		switch (choice)
+		{
+		case 1:
+			system("CLS");
+			cout << "Who would you like to attack ?" << endl;
+			cin >> choice;
+			switch (choice)
+			{
+			case 1:
+				if (Enemy1.monstHealth == 0) {
+					cout << "Monster is dead cannot attack";
+						x - 1;
 
+				}
+				else {
+					cout << "Monster Health: " << Enemy1.monstHealth << endl;
+					cout << "Attacking" << endl;
+					Enemy1.monstHealth - Link.strength;
+					cout << "Monster Health is now : " << Enemy1.monstHealth;
+					break;
+				}
+			case 2:
+				if ()
+				else if (Enemy2.monstHealth == 0) {
+					cout << "Monster is dead cannot attack";
+						x - 1;
 
+				}
+				else {
+					cout << "Monster Health: " << Enemy2.monstHealth << endl;
+					cout << "Attacking" << endl;
+					Enemy2.monstHealth - Link.strength;
+					cout << "Monster Health is now : " << Enemy2.monstHealth;
+					break;
+			case 3:
+				if (Enemy3.monstHealth == 0) {
+					cout << "Monster is dead cannot attack";
+						x - 1;
 
+				}
+				else {
+					cout << "Monster Health: " << Enemy3.monstHealth << endl;
+					cout << "Attacking" << endl;
+					Enemy3.monstHealth - Link.strength;
+					cout << "Monster Health is now : " << Enemy3.monstHealth;
+					break;
+			default:
+				break;
+			}
+
+		default:
+			break;
 		}
+		
 
 	}
 
