@@ -54,72 +54,11 @@ int main()
 
 	//Got rid of for loop and engine for monsters 
 	//because our Monsters come from a text file now
-	}
+	
 
 	std::cout << numMonsters << " monster(s) approaches!!" << std::endl;
 	bool allDead{ false };
-	while (player.health > 0 && !allDead)
-	{
-
-		std::cout << player.name << ": " << player.health << std::endl
-			<< "  Monsters: " << std::endl;
-		for (int i{ 0 }; i < monsters.size(); i++)
-		{
-			std::cout << "   " << i + 1 << ". " << monsters[i].name << ": ";
-			if (monsters.at(i).health <= 0)
-				std::cout << "<DEAD> " << std::endl;
-			else
-				std::cout << monsters[i].health << std::endl;
-		}
-
-		std::cout << "What do you do? (a)ttack (h)eal ";
-		char command{  };
-		std::cin >> command;
-		switch (command)
-		{
-		case 'a':
-		{
-			std::cout << "Which Monster: ";
-			int monsterNum{ 0 };
-			std::cin >> monsterNum;
-			if (monsterNum > 0 && monsterNum <= monsters.size())
-			{
-				if(monsters.at(monsterNum -1).health >0)
-					monsters[monsterNum - 1].health -= player.strength;
-			}
-			break;
-		}
-		case 'h':
-			player.health += player.strength * 2;
-			break;
-		default:
-			std::cout << "please enter a or h" << std::endl;
-			break;
-		}
-
-		
-		std::bernoulli_distribution willAttack(.75);
-		allDead = true;
-		for (const auto& monster : monsters)
-		{
-			if (monster.health > 0)
-			{
-				allDead = false;
-				if (willAttack(engine))
-				{
-					std::cout << monster.name << " attacks!" << std::endl;
-					player.health -= monster.strength;
-				}
-				else
-				{
-					std::cout << monster.name << " twiddles its thumbs" << std::endl;
-				}
-			}
-		}
-
-		system("PAUSE");
-		system("CLS");
-	}
+	
 
 	if (player.health <= 0)
 	{
