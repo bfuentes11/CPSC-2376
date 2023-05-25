@@ -17,7 +17,7 @@ struct Object
 
 //Declarations
 std::vector<Object>	loadMonsters(const std::string& fileName);
-void displayBattle(const Object& player, const std::vector<Object>& monsters);
+void displayBattle(Object& player, std::vector<Object>& monsters);
 bool monsterAttack(Object& player, std::vector<Object>& monsters);
 void playerAttack(Object& player,const std::vector<Object>& monsters);
 int attack(Object& object);
@@ -120,7 +120,7 @@ int main()
 		return monsters;
 	}
 
-	void displayBattle(Object & player, std::vector<Object>&monsters) {
+	void displayBattle(Object& player, std::vector<Object>& monsters) {
 		std::cout << player.name << ": " << player.health << std::endl
 			<< "  Monsters: " << std::endl;
 		for (int i{ 0 }; i < monsters.size(); i++)
@@ -133,7 +133,7 @@ int main()
 		}
 	}
 
-	bool monsterAttack(Object & player, std::vector<Object>&monsters) {
+	bool monsterAttack(Object & player, std::vector<Object>& monsters) {
 
 		std::bernoulli_distribution willAttack(.75);
 		bool allDead{ true };
