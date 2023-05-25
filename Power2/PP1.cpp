@@ -31,7 +31,7 @@ std::default_random_engine e(seed());
 int main()
 {
 
-
+	bool allDead{ false };
 	std::normal_distribution<double> randomHealth(30.0, 5.0);
 	std::normal_distribution<double> randomStrength(5.0, 1.0);
 
@@ -44,15 +44,15 @@ int main()
 		std::max(1, (int)randomHealth(e))
 	};
 
-	std::vector<Object>monsters{ loadMonsters("monsters.txt") };
+	std::vector<Object>monsters{loadMonsters("monsters.txt")};
 
 	//Got rid of while loop temporarily, parts of it are being sent to our functions
-
+	//while loop isn't working going to change parameters
 
 	std::cout << monsters.size() << " monster(s) approaches!!" << std::endl;
 	
 
-	while (player.health > 0 && !monsterAttack(player, monsters)) {
+	while (player.health > 0 && !allDead){
 
 
 		displayBattle(player, monsters);
@@ -101,10 +101,8 @@ int main()
 				std::string name;
 				int strength;
 				int health;
-				doc >> name;
-				doc >> strength;
-				doc >> health;
-
+				doc >> name >> strength >> health;
+				
 				monsters.push_back({name, strength,health });
 			}
 
