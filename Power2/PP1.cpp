@@ -19,7 +19,7 @@ struct Object
 std::vector<Object>	loadMonsters(const std::string& fileName);
 void displayBattle(const Object& player, const std::vector<Object>& monsters);
 bool monsterAttack(Object& player, std::vector<Object>& monsters);
-int playerAttack(Object& player,const std::vector<Object>& monsters);
+void playerAttack(Object& player,const std::vector<Object>& monsters);
 int attack(Object& object);
 void defend(Object& object, int damage);
 void heal(Object& object);
@@ -156,7 +156,7 @@ int main()
 		return allDead;
 	}
 
-	bool playerAttack(Object& player , std::vector<Object>& monsters) {
+	void playerAttack(Object& player , std::vector<Object>& monsters) {
 		std::cout << "Which Monster: ";
 		int monsterNum{ 0 };
 		std::cin >> monsterNum;
@@ -167,9 +167,9 @@ int main()
 
 	//attack defend work together
 	int attack(Object & object) {
-		std::normal_distribution<int> damageDealt(object.strength * 2);
-		return std::max(1, (int)damageDealt(e));
+		std::normal_distribution<double> damageDealt(object.strength * 2);
 		std::cout << object.name << "deals ";
+		return std::max(1, (int)damageDealt(e));
 	}
 
 	void defend(Object & object, int damage) {
@@ -178,8 +178,8 @@ int main()
 	}
 
 	void heal(Object& object) {
-		std::normal_distribution<int> lifeHeal(object.strength * 2, 3);
-		int healAmount{ std::max(1, lifeHeal(e)) };
+		std::normal_distribution<double> lifeHeal(object.strength * 2, 3);
+		int healAmount{ std::max(1, (int) lifeHeal(e)) };
 		std::cout << "You have restored  " << healAmount << " life points." << std::endl;
 		object.health = object.health + healAmount;
 	}
