@@ -22,7 +22,7 @@ bool monsterAttack(Object& player, std::vector<Object>& monsters);
 int playerAttack(Object& player,const std::vector<Object>& monsters);
 int attack(Object& object);
 void defend(Object& object, int damage);
-void heal();
+void heal(Object& object);
 
 std::random_device seed;
 std::default_random_engine e(seed());
@@ -183,4 +183,4 @@ int main()
 		std::cout << "You have restored  " << healAmount << " life points." << std::endl;
 		object.health = object.health + healAmount;
 	}
-}
+
