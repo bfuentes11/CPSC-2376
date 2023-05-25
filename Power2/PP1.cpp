@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <fstream>
 
+
 //Changed to PP1 Solution as recommended.
 
 
@@ -49,13 +50,15 @@ int main()
 	//Got rid of while loop temporarily, parts of it are being sent to our functions
 	//while loop isn't working going to change parameters
 	//Attempting do while
+	//Monsters.txt won't be recognized unless it is in Debug folder with cpp file
 
 	std::cout << monsters.size() << " monster(s) approaches!!" << std::endl;
 	
 	do {
 		displayBattle(player, monsters);
+
 		std::cout << "What do you do? (a)ttack (h)eal ";
-		char command{  };
+		char command{ 'X'};
 		std::cin >> command;
 		switch (command)
 		{
@@ -71,7 +74,8 @@ int main()
 			std::cout << "please enter a or h" << std::endl;
 			break;
 		}
-	} while (player.health > 0 && !monsterAttack);
+	} while (player.health > 0 && !monsterAttack(player,monsters));
+
 
 	if (player.health <= 0) {
 		std::cout << "You Have Died" << std::endl;
@@ -86,9 +90,9 @@ int main()
 
 	std::vector<Object> loadMonsters(const std::string& fileName)
 	{
-		std::fstream doc;
+		std::ifstream doc;
 		doc.open(fileName);
-		std::vector<Object> monsters;
+		std::vector<Object> monsters;	
 		if (doc.is_open()) {
 			int numMonsters;
 			doc >> numMonsters;
@@ -122,11 +126,11 @@ int main()
 		}
 	}
 
-	bool monsterAttack(Object & player, std::vector<Object>& monsters) {
+	bool monsterAttack(Object& player, std::vector<Object>& monsters) {
 
 		std::bernoulli_distribution willAttack(.75);
 		bool allDead{ true };
-		for (const auto& monster : monsters)
+		for (auto& monster : monsters)
 		{
 			if (monster.health > 0)
 			{
@@ -134,7 +138,7 @@ int main()
 				if (willAttack(e))
 				{
 					std::cout << monster.name << " attacks!" << std::endl;
-					player.health -= monster.strength;
+					defend(player, attack(monster));
 				}
 				else
 				{
@@ -155,13 +159,13 @@ int main()
 	}
 
 	//attack defend work together
-	int attack(Object & object) {
+	int attack(Object& object) {
 		std::normal_distribution<double> damageDealt(object.strength * 2);
 		std::cout << object.name << "deals ";
 		return std::max(1, (int)damageDealt(e));
 	}
 
-	void defend(Object & object, int damage) {
+	void defend(Object& object, int damage) {
 		std::cout << damage << " damage to " << object.name << "!!" << std::endl;
 		object.health = object.health - damage;
 	}
