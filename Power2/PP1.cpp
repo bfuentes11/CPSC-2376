@@ -36,7 +36,7 @@ defend
 heal
 */
 std::random_device seed;
-std::default_random_engine engine(seed());
+std::default_random_engine e(seed());
 
 
 int main()
@@ -51,8 +51,8 @@ int main()
 	Object player
 	{
 		"Lon",
-		std::max(1, (int)randomStrength(engine)),
-		std::max(1, (int)randomHealth(engine))
+		std::max(1, (int)randomStrength(e)),
+		std::max(1, (int)randomHealth(e))
 	};
 
 	std::vector<Object>monsters{loadMonsters("monsters.txt")};
@@ -118,14 +118,15 @@ int main()
 	}
 
 	bool monsterAttack(Object& player, std::vector<Object>& monsters) {
+		
 		std::bernoulli_distribution willAttack(.75);
-		allDead = true;
+		bool allDead{ true };
 		for (const auto& monster : monsters)
 		{
 			if (monster.health > 0)
 			{
 				allDead = false;
-				if (willAttack(engine))
+				if (willAttack(e))
 				{
 					std::cout << monster.name << " attacks!" << std::endl;
 					player.health -= monster.strength;
@@ -136,6 +137,7 @@ int main()
 				}
 			}
 		}
+		return allDead;
 	}
 
 	bool playerAttack() {
@@ -144,8 +146,20 @@ int main()
 		std::cin >> monsterNum;
 		if (monsterNum > 0 && monsterNum <= monsters.size())
 		{
-			defend();
+			defend(monsters[monsterNum -1], attack(player));
 		}
+	}
+
+	//attack defend work together
+	int attack(Object& object) {
+		std::normal_distribution<int> damageDealt(object.strength * 2);
+		return std::max(1, (int)damageDealt(e));
+		std::cout << object.name << "deals ";
+	}
+
+	void defend(Object& object, int damage) {
+		std::cout << damage << " damage to " << object.name << "!!" << std::endl;
+		object.health = object.health - damage;
 	}
 
 }
