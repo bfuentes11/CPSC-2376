@@ -13,11 +13,19 @@ struct Object
 	int strength{ 0 };
 	int health{ 0 };
 };
+std::vector<Object>	loadMonsters(std::string& filename);
+//displayBattle is void because it does not return anything
+void displayBattle(const Object& player, const std::vector<Object>& monsters);
+int monsterAttack();
+int playerAttack();
+int attack();
+void defend();
+void heal();
 
 
 //TodoList
 /*
-loadmonsters
+loadmonsters DONE
 displaybattle
 monsterattack
 playerattack
@@ -25,14 +33,14 @@ attack
 defend
 heal
 */
+std::random_device seed;
+std::default_random_engine engine(seed());
 
-std::vector<Object> loadMonsters (string& filename);
 
 int main()	
 {
 
-	std::random_device seed;
-	std::default_random_engine engine(seed());
+	
 	std::normal_distribution<double> randomHealth(30.0, 5.0);
 	std::normal_distribution<double> randomStrength(5.0, 1.0);
 
@@ -42,7 +50,7 @@ int main()
 		std::max(1, (int)randomStrength(engine)),
 		std::max(1, (int)randomHealth(engine))
 	};
-	std::vector<Object> monsters{loadMonsters(monsters.txt);
+	std::vector<Object>monsters{ loadMonsters(monsters.txt) };
 
 	//Got rid of for loop and engine for monsters 
 	//because our Monsters come from a text file now
