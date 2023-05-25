@@ -31,7 +31,7 @@ std::default_random_engine e(seed());
 int main()
 {
 
-	bool allDead{ false };
+	
 	std::normal_distribution<double> randomHealth(30.0, 5.0);
 	std::normal_distribution<double> randomStrength(5.0, 1.0);
 
@@ -48,13 +48,11 @@ int main()
 
 	//Got rid of while loop temporarily, parts of it are being sent to our functions
 	//while loop isn't working going to change parameters
+	//Attempting do while
 
 	std::cout << monsters.size() << " monster(s) approaches!!" << std::endl;
 	
-
-	while (player.health > 0 && !allDead){
-
-
+	do {
 		displayBattle(player, monsters);
 		std::cout << "What do you do? (a)ttack (h)eal ";
 		char command{  };
@@ -73,7 +71,7 @@ int main()
 			std::cout << "please enter a or h" << std::endl;
 			break;
 		}
-	}
+	} while (player.health > 0 && !monsterAttack);
 
 	if (player.health <= 0) {
 		std::cout << "You Have Died" << std::endl;
