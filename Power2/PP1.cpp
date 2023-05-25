@@ -19,7 +19,7 @@ struct Object
 std::vector<Object>	loadMonsters(const std::string& fileName);
 void displayBattle(Object& player, std::vector<Object>& monsters);
 bool monsterAttack(Object& player, std::vector<Object>& monsters);
-void playerAttack(Object& player,const std::vector<Object>& monsters);
+void playerAttack(Object& player, std::vector<Object>& monsters);
 int attack(Object& object);
 void defend(Object& object, int damage);
 void heal(Object& object);
@@ -50,7 +50,7 @@ int main()
 
 
 	std::cout << monsters.size() << " monster(s) approaches!!" << std::endl;
-	bool allDead{ false };
+	
 
 	while (player.health > 0 && !monsterAttack(player, monsters)) {
 
@@ -63,18 +63,11 @@ int main()
 		{
 		case 'a':
 		{
-			std::cout << "Which Monster: ";
-			int monsterNum{ 0 };
-			std::cin >> monsterNum;
-			if (monsterNum > 0 && monsterNum <= monsters.size())
-			{
-				if (monsters.at(monsterNum - 1).health > 0)
-					monsters[monsterNum - 1].health -= player.strength;
-			}
+			playerAttack(player, monsters);
 			break;
 		}
 		case 'h':
-			player.health += player.strength * 2;
+			heal(player);
 			break;
 		default:
 			std::cout << "please enter a or h" << std::endl;
@@ -112,7 +105,7 @@ int main()
 				doc >> strength;
 				doc >> health;
 
-				monsters.push_back({ name, strength,health });
+				monsters.push_back({name, strength,health });
 			}
 
 		}
