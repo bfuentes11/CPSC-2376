@@ -212,7 +212,7 @@ void playerAttack(const Object& player, std::vector<Object>& monsters)
 
 void levelUp(Object& player)
 {
-	
+
 	/*
 		1.  Increment player's level
 		2.  randomly at health to player using randomHealth distribution (at least 1)
@@ -232,10 +232,15 @@ void levelUp(Object& player)
 	std::normal_distribution<double> randomHealth(20.0 + player.level * 5, 5.0);
 	std::normal_distribution<double> randomStrength(3.0 + player.level, 1.0);
 
-	player.health += randomHealth;
-	player.strength += randomHealth;
-	
-	std::uniform_int_distribution<double> itemGenerator()
+	//Convert from double to int while leveling up to avoid conversion errors
+	player.health += std::max(1, (int)randomHealth(engine));
+	player.strength += std::max(1, (int)randomStrength(engine));
+
+	std::uniform_int_distribution<double> itemGenerator(0, (int)Item::Type::numTypes);
+	std::normal_distribution<double> bonusPoints((double)player.level, (double)player.level / 3);
+	Item summon{ (Item:Type)itemGenerator(engine), std::max(1, (int)bonusPoints(engine) };
+	std::cout << "You've discovered a " << printItem(summon) << "!" << std::endl;
+	if( auto haveOne)
 	
 	
 }
@@ -243,7 +248,11 @@ void levelUp(Object& player)
 int calculateAC(const Object& object)
 {
 	//check for armor and shield
-	
+	if (auto armor{ object.inventory.find(Item::Type::armor) };
+		armor != object.inventory.end());
+	{
+
+	}
 	//return to the combined bonus values.
 }
 
