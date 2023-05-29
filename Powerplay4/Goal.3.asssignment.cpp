@@ -237,14 +237,15 @@ void levelUp(Object& player)
 	player.strength += std::max(1, (int)randomStrength(engine));
 
 	std::uniform_int_distribution<double> itemGenerator(0, (int)Item::Type::numTypes);
-	std::normal_distribution<double> bonusPoints((double)player.level, (double)player.level / 3);
+	std::normal_distribution<double> bonusValue((double)player.level, (double)player.level / 3);
 
-	Item summon{ (Item:Type)itemGenerator(engine), std::max(1, (int)bonusPoints(engine) };
+	Item summon{ (Item:Type)itemGenerator(engine), std::max(1, (int)bonusValue(engine) };
 	std::cout << "You've discovered a " << printItem(summon) << "!" << std::endl;
 
+	//Keep or discard item
 	if (
 		auto haveOne{ player.inventory.find(summon.clasification) };
-		haveOne == player.inventory.end() || player.inventory[summon.clasification].bonusPoints < summon.bonusPoints;
+		haveOne == player.inventory.end() || player.inventory[summon.clasification].bonusValue < summon.bonusValue;
 		)
 	{
 		std::cout << "You have replaced your old item." << std::endl;
@@ -256,13 +257,21 @@ void levelUp(Object& player)
 }
 
 int calculateAC(const Object& object)
-{
+{	
+	int AC{ 0 };
 	//check for armor and shield
 	if (auto armor{ object.inventory.find(Item::Type::armor) };
-		armor != object.inventory.end());
+		armor != object.inventory.end())
 	{
-
+		AC += armor->second.bonusValue;
 	}
+
+	if (auto shield{ object.inventory.find(Item::Type::shield) }
+		shield != object.inventory.end())
+	{
+		AC += shield->second.bonusValue;
+	}
+	return AC;
 	//return to the combined bonus values.
 }
 
@@ -310,6 +319,11 @@ int attack(const Object& object)
 {
 	int potentialDamage{ object.strength };
 	//check for a sword. IF they have it, add to potential damage!
+	if (auto sword{ object.inventory.find(Item::Type::sword) };
+		sword != object.inventory.end())
+	{
+		potentialDamage += sword->second.bonusValue;
+	}
 	std::normal_distribution<double> damageDealt(potentialDamage, 2.0);
 	
 	printName(object);
