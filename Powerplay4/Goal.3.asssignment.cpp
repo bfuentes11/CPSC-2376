@@ -238,10 +238,20 @@ void levelUp(Object& player)
 
 	std::uniform_int_distribution<double> itemGenerator(0, (int)Item::Type::numTypes);
 	std::normal_distribution<double> bonusPoints((double)player.level, (double)player.level / 3);
+
 	Item summon{ (Item:Type)itemGenerator(engine), std::max(1, (int)bonusPoints(engine) };
 	std::cout << "You've discovered a " << printItem(summon) << "!" << std::endl;
-	if( auto haveOne)
-	
+
+	if (
+		auto haveOne{ player.inventory.find(summon.clasification) };
+		haveOne == player.inventory.end() || player.inventory[summon.clasification].bonusPoints < summon.bonusPoints;
+		)
+	{
+		std::cout << "You have replaced your old item." << std::endl;
+	}
+	else {
+		std::cout << "Sadly, the item you have discovered is worse than yours." << std::endl << "You discarded it." << std::endl;
+	}
 	
 }
 
