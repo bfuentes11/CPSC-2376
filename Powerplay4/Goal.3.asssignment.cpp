@@ -48,6 +48,7 @@ std::default_random_engine engine(seed());
 
 int main()
 {
+	
 	Object player{ Object::Type::player, 0,1,0, {} };	
 	std::vector<Object> monsters;
 	while (player.health > 0)
@@ -239,14 +240,14 @@ void levelUp(Object& player)
 	std::uniform_int_distribution<double> itemGenerator(0, (int)Item::Type::numTypes);
 	std::normal_distribution<double> bonusValue((double)player.level, (double)player.level / 3);
 
-	Item summon{ (Item:Type)itemGenerator(engine), std::max(1, (int)bonusValue(engine) };
-	std::cout << "You've discovered a " << printItem(summon) << "!" << std::endl;
+	Item summon{ (Item::Type)itemGenerator(engine), std::max(1, (int)bonusValue(engine) )};
+	std::cout << "You've discovered a ";
+	printItem(summon);
+	std::cout << "!" << std::endl;
 
 	//Keep or discard item
-	if (
-		auto haveOne{ player.inventory.find(summon.clasification) };
-		haveOne == player.inventory.end() || player.inventory[summon.clasification].bonusValue < summon.bonusValue;
-		)
+	if 	(	auto haveOne{ player.inventory.find(summon.clasification) };
+	haveOne == player.inventory.end() || player.inventory[summon.clasification].bonusValue < summon.bonusValue;)
 	{
 		std::cout << "You have replaced your old item." << std::endl;
 	}
@@ -260,14 +261,11 @@ int calculateAC(const Object& object)
 {	
 	int AC{ 0 };
 	//check for armor and shield
-	if (auto armor{ object.inventory.find(Item::Type::armor) };
-		armor != object.inventory.end())
-	{
+	if (auto armor{ object.inventory.find(Item::Type::armor) }) armor != object.inventory.end(); {
 		AC += armor->second.bonusValue;
 	}
 
-	if (auto shield{ object.inventory.find(Item::Type::shield) }
-		shield != object.inventory.end())
+	if (auto shield{ object.inventory.find(Item::Type::shield) } shield != object.inventory.end())
 	{
 		AC += shield->second.bonusValue;
 	}
@@ -319,6 +317,7 @@ int attack(const Object& object)
 {
 	int potentialDamage{ object.strength };
 	//check for a sword. IF they have it, add to potential damage!
+
 	if (auto sword{ object.inventory.find(Item::Type::sword) };
 		sword != object.inventory.end())
 	{
