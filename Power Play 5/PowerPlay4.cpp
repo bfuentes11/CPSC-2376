@@ -90,24 +90,24 @@ int main()
 
 
 
-
+// Answer to question 3(2/3)
 void displayBattle(const Object& player, const std::vector<Object>& monsters)
 {
 	printName(player);
 	std::cout  << " h:" << player.health  << std::endl;
-	for (const auto & item : player.inventory)
-	{
-		std::cout  << "  ";
+	//changed for loop for inventory
+	std::for_each(player.inventory.begin(), player.inventory.end(), [](const std::pair<Item::Type, Item>& item)
+		{
 		printItem(item.second);
-		std::cout  << std::endl;
-	}
+	});
+
 	std::cout  << std::endl  << "  Monsters: " << std::endl;
-	for (int i{ 0 }; i  < monsters.size(); i++)
-	{
-		std::cout  << "   " << i  + 1 << ". ";
-		printName(monsters[i]);
-		std::cout  << " h:" << monsters[i].health  << std::endl;
-	}
+	//changed for loop for monsters
+	std::for_each(monsters.begin(), monsters.end(), [](const Object& monster)
+		{
+		printName(monster);
+		std::cout  << " h:" << monster.health  << std::endl;
+	});
 }
 //Answer to question 1
 std::vector<Object> createMonsters(const Object& player)
@@ -161,24 +161,24 @@ std::vector<Object> createMonsters(const Object& player)
 	});
 	return monsters;
 }
+
 void monsterAttack(Object& player, const std::vector<Object>& monsters)
 {
 	std::bernoulli_distribution willAttack(.75);
 	std::cout  << std::endl;
-	for (const auto & monster : monsters)
-	{
-		if (willAttack(engine))
-		{
+	//changed for loop for monsterAttack
+	//Answer to question 3(3/3)
+	std::for_each(monsters.begin(), monsters.end(), [&](const Object& monster) {
+		if (willAttack(engine)) {
 			printName(monster);
-			std::cout  << " attacks!" << std::endl;
+			std::cout <<  " attacks!" << std::endl;
 			defend(player, attack(monster));
 		}
-		else
-		{
-		printName(monster);
-		std::cout  << " twiddles its thumbs" << std::endl;
+		else {
+			printName(monster);
+			std::cout << " twiddles its thumbs" << std::endl;
 		}
-	}
+		});
 }
 void playerAttack(const Object& player, std::vector<Object>& monsters)
 {
