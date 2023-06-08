@@ -51,22 +51,39 @@ Monster::Monster(const Player& player)
 }
 
 
-int Monster::damage() const
+void Monster::update(Player& player, std::vector<Monster>& monsters)
 {
-	int potentialDamage{ strength };
-	std::normal_distribution<double> damageDealt(potentialDamage, 2.0);
+	std::bernoulli_distribution willAttack(.75);
+	if (willAttack(Object::engine))
+	{
 
+		std::cout << *this << " attacks!" << std::endl;
+		player.defend(attack());
+	}
+	else
+	{
 
-	std::cout << *this << " deals ";
-	return std::max(1, (int)damageDealt(engine));
+		std::cout << *this << " twiddles its thumbs" << std::endl;
+	}
 }
 
-void Monster::defense(int damage)
+//got rid of dmg and defense since no longer used
+void Monster::print(std::ostream& o) const
 {
-	std::normal_distribution<double> defense(AC, 1.0 / level);
-	damage = std::max(0, damage - (int)defense(engine));
-	std::cout << damage << " damage to ";
+	if (objectName) Object::print(o);
+	else {
+		o << "Monster L:" << getLevel() << std::endl;
+		Object::print(o);
+		o << " HP:" << getHealth() << " SP:" << getSP();
+	}
+}
 
-	std::cout << *this << "!!!" << std::endl;
-	health -= damage;
+int Monster::attack() const
+{
+	return damageDone(0);
+}
+
+void Monster::defend(int damage) 
+{
+	damageTaken(damage, AC);
 }

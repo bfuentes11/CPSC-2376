@@ -70,7 +70,7 @@ int main()
 
 void displayBattle(const Player& player, const std::vector<Monster>& monsters)
 {
-	Object::nameOnly = false; //TODO:: get rid of this and just dot he full cout.
+	Object::objectName = false; //TODO:: get rid of this and just dot he full cout.
 	std::cout << player << std::endl;
 	std::cout << std::endl << "  Monsters: " << std::endl;
 	{
@@ -97,7 +97,7 @@ std::vector<Monster> createMonsters(const Player& player)
 
 void bringOutYourDead(std::vector<Monster>& monsters)
 {
-	Object::nameOnly = true;
+	Object::objectName = true;
 	monsters.erase(
 		std::remove_if(monsters.begin(), monsters.end(),
 			[](Object& monster)

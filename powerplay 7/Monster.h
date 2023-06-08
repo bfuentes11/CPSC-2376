@@ -9,8 +9,13 @@ class Monster :
 public:
 	Monster() {};
 	Monster(const Player& player);
-	int damage() const;
-	void defense(int damage);
+	//int damage() const;
+
+	void update(const Player& player, const std::vector<Monster>& monsters) override;
+
+	int attack() const override;
+	void print(std::ostream& o) const override;
+	void defense(int damage) override;
 private:
 	int AC{ 0 };
 
