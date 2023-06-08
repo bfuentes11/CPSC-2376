@@ -19,8 +19,8 @@ public:
 
 	virtual void attack() const = 0;
 	virtual void defend(int damage) = 0;
-	virtual void update(const Player& player, const std::vector<Monster>& monsters) = 0;
-	virtual void print(std::ostream& o) const = 0;
+	virtual void update(Player& player, std::vector<Monster>& monsters) = 0;
+	virtual void print(std::ostream& o) const;
 
 	bool isDead();
 	Type getName() const;
