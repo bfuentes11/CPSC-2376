@@ -17,7 +17,7 @@ public:
 	Object() {}
 	Object(Type name, int strength, int health, int level);
 
-	virtual void attack() const = 0;
+	virtual int attack() const = 0;
 	virtual void defend(int damage) = 0;
 	virtual void update(Player& player, std::vector<Monster>& monsters) = 0;
 	virtual void print(std::ostream& o) const;

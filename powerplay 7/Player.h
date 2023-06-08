@@ -11,8 +11,8 @@ public:
 	Player();
 
 	void levelUp();
-	void update(Player& player, const std::vector<Monster>& monsters) override;
-	void attack() const override;
+	void update(Player& player, std::vector<Monster>& monsters) override;
+	int attack() const override;
 	void print(std::ostream& o) const override;
 	
 	int getLevel() const;
