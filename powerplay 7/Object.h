@@ -3,11 +3,13 @@
 
 #include <map>
 #include <random>
-
+class Monster;
+class Player;
 
 class Object
 {
 public:
+	static bool objectName;
 	static std::random_device seed;
 	static std::default_random_engine engine;
 	enum class Type { player, slime, orc, sprite, dragon, numTypes };

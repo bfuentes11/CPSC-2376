@@ -8,6 +8,47 @@ Player::Player() :Object(Object::Type::player, 0, 1, 0)
 
 }
 
+void Player::update(Player& player, std::vector<Monster>& monsters) {
+	//copied from lines 44-60 of pp6.cpp
+	std::cout << "What do you do? (a)ttack (h)eal ";
+	char command{ 'x' };
+	std::cin >> command;
+	switch (command)
+	{
+	case 'a':
+	{
+		int monsterNum{ 1 };
+		if (monsters.size() > 1)
+		{
+			std::cout << "Which Monster: ";
+			std::cin >> monsterNum;
+		}
+		if (monsterNum > 0 && monsterNum <= monsters.size())
+		{
+
+			monsters[monsterNum - 1].defend(player.attack());
+		}
+		break;
+	}
+	case 'h':
+		player.heal();
+		break;
+	default:
+		std::cout << "please enter a or h" << std::endl;
+		break;
+	}
+}
+
+void Player::print(std::ostream& o) const
+{
+	if (objectName) Object::print(o);
+	else {
+		o << "Player L:" << getLevel() << std::endl;
+		Object::print(o);
+		o << " HP:" << getHealth() << " SP:" << getSP();
+	}
+}
+
 void Player::levelUp()
 {
 	level++;
@@ -49,7 +90,7 @@ int Player::getSP() const
 	return SP;
 }
 
-int Player::damage() const
+/*int Player::damage() const
 {
 	int potentialDamage{ strength };
 	if (auto sword{ inventory.find(Item::Type::sword) }; sword != inventory.end())
@@ -62,6 +103,7 @@ int Player::damage() const
 	std::cout << *this << " deals ";
 	return std::max(1, (int)damageDealt(engine));
 }
+*/
 
 //add attack after damage since attack and dmg are similar or not idk.
 int Player::attack() const {
@@ -71,7 +113,7 @@ int Player::attack() const {
 }
 	else
 	{
-		return damageDone();
+		return damageDone(0);
 	}
 }
 
@@ -80,7 +122,7 @@ std::map<Item::Type, Item> Player::getInventory() const
 	return inventory;
 }
 
-void Player::defense(int damage)
+/*void Player::defense(int damage)
 {
 	int AC{ 0 };
 	if (auto armor{ inventory.find(Item::Type::armor) }; armor != inventory.end())
@@ -98,6 +140,21 @@ void Player::defense(int damage)
 
 	std::cout << *this << "!!!" << std::endl;
 	health -= damage;
+}
+*/
+
+
+void Player::defend(int damage) {
+	int AC{ 0 };
+	if (auto armor{ inventory.find(Item::Type::armor) }; armor != inventory.end())
+	{
+		AC += armor->second;
+	}
+	if (auto shield{ inventory.find(Item::Type::shield) }; shield != inventory.end())
+	{
+		AC += shield->second;
+	}
+	damageTaken(damage, AC);
 }
 
 void Player::heal()
@@ -117,11 +174,12 @@ void Player::heal()
 	}
 }
 
-std::ostream& operator<<(std::ostream& o, const Player& src)
+/*std::ostream& operator<<(std::ostream& o, const Player& src)
 {
 	o << (Object)src << ", SP:" << src.getSP();
 	return o;
 }
+*/
 
 std::ostream& operator<<(std::ostream& o, const std::map<Item::Type, Item>& src)
 {
@@ -131,5 +189,3 @@ std::ostream& operator<<(std::ostream& o, const std::map<Item::Type, Item>& src)
 		});
 	return o;
 }
-
-
