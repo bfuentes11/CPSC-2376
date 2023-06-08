@@ -1,6 +1,7 @@
 #include <random>
 #include <iostream>
 #include "Player.h"
+#include "Monster.h"
 
 Player::Player() :Object(Object::Type::player, 0, 1, 0)
 {
@@ -60,6 +61,18 @@ int Player::damage() const
 
 	std::cout << *this << " deals ";
 	return std::max(1, (int)damageDealt(engine));
+}
+
+//add attack after damage since attack and dmg are similar or not idk.
+int Player::attack() const {
+	//searches for sword in inventory
+	if (auto sword{ inventory.find(Item::Type::sword) }; sword != inventory.end()){
+		return damageDone(sword->second.getBonusValue());
+}
+	else
+	{
+		return damageDone();
+	}
 }
 
 std::map<Item::Type, Item> Player::getInventory() const
