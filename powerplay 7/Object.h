@@ -15,6 +15,10 @@ public:
 	Object() {}
 	Object(Type name, int strength, int health, int level);
 
+	virtual void attack() const = 0;
+	virtual void defend(int damage) = 0;
+	virtual void update(const Player& player, const std::vector<Monster>& monsters) = 0;
+	virtual void print(std::ostream& o) const = 0;
 
 	bool isDead();
 	Type getName() const;
@@ -26,6 +30,8 @@ protected:
 	int strength{ 0 };
 	int health{ 0 };
 	int level{ 0 };
+	int damageDone(int modification) const;
+	int damageTaken(int damageDone, int AC);
 
 };
 

@@ -9,6 +9,28 @@ Object::Object(Type name, int strength, int health, int level) : name{ name }, s
 }
 
 
+int Object::damageDone(int modification) const
+{
+	Object::objectName = true;
+	std::normal_distribution<double> dmgInflict(strength + modification, 2.0);
+	std::cout << *this << " damage dealt";
+	return std::max(1, (int)dmgInflict(engine));
+}
+
+int Object::damageTaken(int damageDone, int AC)
+{
+	Object::objectName = true;
+	std::normal_distribution<double> defend(AC, 1.0 / level);
+	damageDone = std::max(0, damageDone - (int)defend(engine));
+
+	std::cout << damageDone << " damaged inflicted to ";
+	std::cout << *this << std::endl;
+	
+	health -= damageDone;
+	return damageDone;
+	
+}
+
 
 bool Object::isDead()
 {
