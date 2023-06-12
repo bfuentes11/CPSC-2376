@@ -23,9 +23,10 @@ public:
 
 
 private:
-	std::map<Item::Type, Item*> inventory;
+	//edit pointer 
+	std::map<Item::Type, std::unique_ptr<Item>>inventory ;
 	int SP{ 0 };
 };
-
-std::ostream& operator<< (std::ostream& o, const std::map<Item::Type, Item*>& src);
+//edited operator overload
+std::ostream& operator<< (std::ostream& o, const std::map<Item::Type, std::unique_ptr<Item*>>& src);
 #endif // !PLAYER_H
