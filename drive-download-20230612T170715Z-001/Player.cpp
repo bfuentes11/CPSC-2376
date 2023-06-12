@@ -21,7 +21,7 @@ void Player::levelUp()
 	//grab new item.
 	std::uniform_int_distribution<int> randomItem(0, (int)Item::Type::numTypes - 1);
 	std::normal_distribution<double> randomBonus((double)level, (double)level / 2);
-	Item* found{ new Item{(Item::Type)randomItem(engine), std::max(1, (int)randomBonus(engine))} };
+	std::unique_ptr<Item> found{std::make_unique<Item>((Item::Type)randomItem(engine),std::max(1, (int) randomBonus(engine)))};
 
 	std::cout << "You found a " << *found << "!!!!" << std::endl;
 	if (

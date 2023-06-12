@@ -11,10 +11,10 @@
 #include "Player.h"
 #include "Monster.h"
 
-void createMonsters(std::vector<Object*>& objects);
+void createMonsters(std::vector<std::unique_ptr<Object>>& objects);
 
-void displayBattle(const std::vector<Object*>& objects);
-void bringOutYourDead(std::vector<Object*>& objects);
+void displayBattle(const std::vector<std::unique_ptr<Object>>& objects);
+void bringOutYourDead(std::vector<std::unique_ptr<Object>>& objects);
 
 
 int main()
