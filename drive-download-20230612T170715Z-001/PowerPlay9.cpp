@@ -19,7 +19,7 @@ void bringOutYourDead(std::vector<std::unique_ptr<Object>>& objects);
 
 int main()
 {
-	std::vector<Object*> objects{ new Player() };
+	std::vector<std::unique_ptr<Object>> objects{ std::make_unique <Player>() };
 	while (objects.front()->getName() == Object::Type::player)
 	{
 		createMonsters(objects);
@@ -32,18 +32,16 @@ int main()
 			&& objects.front()->getName() == Object::Type::player)
 		{
 			bringOutYourDead(objects);
-			if (objects.front()->getName() == Object::Type::player)
-			{
-				displayBattle(objects);
-				std::cout << std::endl;
-				std::for_each(objects.begin(), objects.end(), [&](Object* object)
-					{
-						object->update(objects);
-					});
+			displayBattle(objects);
+			std::cout << std::endl;
+			std::for_each(objects.begin(), objects.end(), [&](std::unique_ptr<Object>& object)
+				{
+					object->update(objects);
+				});
 
-				system("PAUSE");
-				system("CLS");
-			}
+			system("PAUSE");
+			system("CLS");
+			
 		}
 	}
 
@@ -66,8 +64,8 @@ int main()
 }
 
 
-
-void displayBattle(const std::vector<Object*>& objects)
+//unique ptr
+void displayBattle(const std::vector<std::unique_ptr<Object>>& objects)
 {
 	Object::nameOnly = false;
 	
@@ -83,8 +81,8 @@ void displayBattle(const std::vector<Object*>& objects)
 			});
 	}
 }
-
-void createMonsters(std::vector<Object*>& objects)
+//unique ptr
+void createMonsters(std::vector<std::unique_ptr<Object>>& objects)
 {
 	std::normal_distribution<double> randomNumMonsters((double)objects.front()->getLevel(), objects.front()->getLevel() / 2.0);
 	objects.resize(std::max(2, (int)randomNumMonsters(Object::engine)));
@@ -94,7 +92,7 @@ void createMonsters(std::vector<Object*>& objects)
 		});
 }
 
-void bringOutYourDead(std::vector<Object*>& objects)
+void bringOutYourDead(std::vector<std::unique_ptr<Object>>& objects)
 {
 	Object::nameOnly = true;
 	objects.erase(

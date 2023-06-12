@@ -27,7 +27,7 @@ void Player::levelUp()
 	if (
 		auto haveOne{ inventory.find(found->getClassification()) };
 		haveOne == inventory.end()
-		|| *(inventory[found->getClassification()]) < *found
+		|| (*inventory[found->getClassification()]) < *found
 		)
 	{
 		std::cout << "You keep the shiny new toy!" << std::endl;
@@ -143,12 +143,15 @@ void Player::print(std::ostream& o) const
 	}
 }
 
-std::ostream& operator<<(std::ostream& o, const std::map<Item::Type, Item*>& src)
+std::ostream& operator<< (std::ostream& o, const std::map<Item::Type, std::unique_ptr<Item*>>& src)
 {
-	std::for_each(src.begin(), src.end(), [&](std::pair<Item::Type, Item*> item)
-		{
-			o << "  " << *(item.second) << std::endl;
-		});
+	for (const auto& [type, item] : src)
+	{
+		o << *item << std::endl;
+	}
+	{
+		
+	}
 	return o;
 }
 
